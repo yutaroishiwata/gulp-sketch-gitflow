@@ -7,11 +7,8 @@ const rename = require("gulp-rename");
 const unzip = require('gulp-unzip');
 const glob = require("glob");
 
-// Zip file location
-const zipFiles = glob.sync('./sketch/**/*.zip');
-
 // Tasks
-function sketchRename() {
+function renameFile() {
   return gulp
     .src('./sketch/**/*.sketch', { base: '.' })
     .pipe(rename(function (path) {
@@ -20,7 +17,9 @@ function sketchRename() {
     .pipe(gulp.dest('.')) // Current working directory
 }
 
-function sketchUnzip(done) {
+function unzipFile(done) {
+  const zipFiles = glob.sync('./sketch/**/*.zip');
+
   zipFiles.forEach(function (zipFile) {
     const zipFileDir = path.dirname(zipFile);
       
@@ -32,8 +31,14 @@ function sketchUnzip(done) {
   done();
 }
 
+// watch files
+function watchFile(){
+  gulp.watch('./sketch/**/*.sketch').on('change', build);
+}
+
 // define complex tasks
-const build = gulp.series(sketchRename, sketchUnzip);
+const build = gulp.series(renameFile, unzipFile);
 
 // export tasks
 exports.default = build;
+exports.watch = watchFile;
