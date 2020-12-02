@@ -31,6 +31,10 @@ Run with the command line tool.
 ```
 $ gulp
 ```
+or
+```
+$ gulp watch
+```
 
 # Results
 ```
