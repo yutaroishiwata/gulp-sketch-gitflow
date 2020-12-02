@@ -6,6 +6,8 @@ const path = require('path');
 const rename = require("gulp-rename");
 const unzip = require('gulp-unzip');
 const glob = require("glob");
+// .zip file location
+const zipFiles = glob.sync('./sketch/**/*.zip');
 
 // Tasks
 function renameFile() {
@@ -18,11 +20,8 @@ function renameFile() {
 }
 
 function unzipFile(done) {
-  const zipFiles = glob.sync('./sketch/**/*.zip');
-
   zipFiles.forEach(function (zipFile) {
     const zipFileDir = path.dirname(zipFile);
-      
     return gulp
       .src(zipFile)
       .pipe(unzip({ keepEmpty: true }))
